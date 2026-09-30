@@ -1043,8 +1043,8 @@ static void dice2d5_cb(gui_obj_t *obj, T_OBJ_CB_TYPE cb_type)
     if (obj == NULL) { return; }
     switch (cb_type)
     {
-    case OBJ_PREPARE: dice2d5_prepare(obj); break;
-    case OBJ_DRAW:    dice2d5_draw(obj);    break;
+    case OBJ_PRE_PROCESS: dice2d5_prepare(obj); break;
+    case OBJ_PROCESS:    dice2d5_draw(obj);    break;
     default: break;
     }
 }
@@ -1070,8 +1070,8 @@ static gui_dice_t *dice2d5_create(gui_obj_t *parent)
     gui_obj_ctor(base, parent, "dice-2d5-litegfx", 0, 0, 0, 0);
     base->type = VG_LITE_SOCCER;   /* Reuse the existing 2.5D textured type. */
     base->obj_cb = dice2d5_cb;
-    base->has_prepare_cb = true;
-    base->has_draw_cb = true;
+    base->has_pre_process_cb = true;
+    base->has_process_cb = true;
 
     for (int d = 0; d < DICE_NUM; d++)
     {

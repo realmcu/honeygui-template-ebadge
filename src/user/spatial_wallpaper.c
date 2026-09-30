@@ -23,7 +23,7 @@
  *
  * Injection method:
  *   Each layer is a transform-node: a plain gui_obj container whose matrix we
- *   OVERWRITE with the per-layer screen-space homography inside its OBJ_PREPARE
+ *   OVERWRITE with the per-layer screen-space homography inside its OBJ_PRE_PROCESS
  *   callback. obj_draw_prepare() runs a parent's prepare callback BEFORE its
  *   children inherit the parent matrix, so the zero-transform child image
  *   simply inherits the homography and draws with full perspective -- gui_img
@@ -313,7 +313,7 @@ static void sw_layer_prepare(sw_layer_t *layer)
 
 static void sw_stage_cb(gui_obj_t *obj, T_OBJ_CB_TYPE cb_type)
 {
-    if (cb_type == OBJ_PREPARE)
+    if (cb_type == OBJ_PRE_PROCESS)
     {
         sw_layer_prepare((sw_layer_t *)obj->user_data);
     }
@@ -385,7 +385,7 @@ static void sw_create_layer(void *parent, sw_layer_t *layer, const char *stage_n
     /* The stage matrix is replaced with the layer homography every frame. */
     layer->stage = gui_obj_create(root, stage_name, 0, 0, 0, 0);
     layer->stage->obj_cb = sw_stage_cb;
-    layer->stage->has_prepare_cb = true;
+    layer->stage->has_pre_process_cb = true;
     layer->stage->user_data = layer;
 
     /* The child inherits the stage homography without an additional transform. */

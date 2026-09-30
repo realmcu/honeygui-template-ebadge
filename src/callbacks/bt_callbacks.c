@@ -107,6 +107,7 @@ void view_transmit_timer_0_cb(void *obj)
     is_displaying_mainface = false;
 }
 
+static uint16_t bt_icon_idle_cnt = 0;
 void bt_icon_timer_0_cb(void *obj)
 {
     GUI_UNUSED(obj);
@@ -124,10 +125,10 @@ void bt_icon_timer_0_cb(void *obj)
     }
     gui_img_set_src((gui_img_t *)bt_icon, src, IMG_SRC_FILESYS);
 
-    bt_icon_timer_cnt++;
-    if (bt_icon_timer_cnt >= 200)
+    bt_icon_idle_cnt++;
+    if (bt_icon_idle_cnt >= 200)
     {
-        bt_icon_timer_cnt = 0;
+        bt_icon_idle_cnt = 0;
         if (is_bt_connect == false)
         {
             gui_view_switch_direct(gui_view_get_current(), "qrcode_view", SWITCH_OUT_NONE_ANIMATION, SWITCH_IN_NONE_ANIMATION);
